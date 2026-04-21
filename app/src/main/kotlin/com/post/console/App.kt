@@ -3,13 +3,26 @@
  */
 package com.post.console
 
-class App {
-    val greeting: String
-        get() {
-            return "Hello World!"
-        }
-}
+import com.post.console.user.infrastructure.console.UserConsoleAdapter
+import com.post.console.user.application.ports.input.CreateUserInputPort
+import com.post.console.user.application.CreateUseCases
+import com.post.console.user.infrastructure.databases.InMemoryUserRepository
+import com.post.console.user.application.ports.input.GetUserInputPort
+import com.post.console.user.application.GetUseCases
+import com.post.console.user.application.UpdateUseCases
 
 fun main() {
-    println(App().greeting)
+    
+    val userRepository = InMemoryUserRepository()
+    val createUseCases = CreateUseCases(userRepository)
+    val getUseCases = GetUseCases(userRepository)
+    val updateUseCases = UpdateUseCases(userRepository)
+
+    val console = UserConsoleAdapter(
+        createPort = createUseCases,
+        getPort = getUseCases,
+        updatePort = updateUseCases
+    )
+
+    console.run()
 }
