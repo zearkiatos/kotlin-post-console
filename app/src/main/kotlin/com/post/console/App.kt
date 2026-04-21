@@ -18,11 +18,29 @@ fun main() {
     val getUseCases = GetUseCases(userRepository)
     val updateUseCases = UpdateUseCases(userRepository)
 
-    val console = UserConsoleAdapter(
+    val userConsole = UserConsoleAdapter(
         createPort = createUseCases,
         getPort = getUseCases,
         updatePort = updateUseCases
     )
 
-    console.run()
+     while (true) {
+            println(
+                    """
+            What module do you want to select:
+            1) User
+            0) exit
+            """.trimIndent()
+            )
+
+            val line = readlnOrNull()?.trim()
+            if (line == "0") {
+                break
+            }
+
+            when (line) {
+                "1" -> userConsole.run()
+                else -> println("Unknown command")
+            }
+        }
 }

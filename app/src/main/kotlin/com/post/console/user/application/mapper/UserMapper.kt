@@ -17,7 +17,7 @@ fun CreateUserRequest.toDomain(): User {
             id = id.trim(),
             name = name.trim(),
             relationshipUser = mutableRelationshipUser,
-            blockedUsers = blockedUsers.toMutableSet()
+            blockedUsers = blockedUsers.toMutableSet(),
     )
 }
 
@@ -32,6 +32,6 @@ fun User.toResponse(): UserResponse {
                     else -> "UNKNOWN"
                 }
             },
-            blockedUsers = blockedUsers
+            blockedUsers = blockedUsers.toMutableSet()
     )
 }
