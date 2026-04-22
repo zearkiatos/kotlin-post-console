@@ -16,8 +16,8 @@ class PostRepositoryUnitTest {
 
     @org.junit.Test
     fun `Given two posts, When created, Then they should be retrievable`() {
-        val post1 = Post(id = "1", comments = listOf("comment1", "comment2"))
-        val post2 = Post(id = "2", comments = listOf("comment3"))
+        val post1 = Post(id = "1", title = "Post 1", content = "Content 1", authorId = "author1", comments = listOf("comment1", "comment2").toMutableList())
+        val post2 = Post(id = "2", title = "Post 2", content = "Content 2", authorId = "author2", comments = listOf("comment3").toMutableList())
 
         postRepository.create(post1)
         postRepository.create(post2)
@@ -30,8 +30,8 @@ class PostRepositoryUnitTest {
 
     @org.junit.Test
     fun `Given a post, When deleted, Then it should not be retrievable`() {
-        val post1 = Post(id = "1", comments = listOf("comment1", "comment2"))
-        val post2 = Post(id = "2", comments = listOf("comment3"))
+        val post1 = Post(id = "1", title = "Post 1", content = "Content 1", authorId = "author1", comments = listOf("comment1", "comment2").toMutableList())
+        val post2 = Post(id = "2", title = "Post 2", content = "Content 2", authorId = "author2", comments = listOf("comment3").toMutableList())
 
         postRepository.create(post1)
         postRepository.create(post2)

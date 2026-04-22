@@ -1,4 +1,4 @@
-package com.post.console.post.infrastrcuture.databases
+package com.post.console.post.infrastructure.databases
 
 import org.junit.Assert.*
 import org.junit.Before
@@ -17,7 +17,7 @@ class InMemoryPostRepositoryUnitTest() {
 
     @Test
     fun `Given a post, when created, then it should be stored in the repository`() {
-        val post = Post("post1", listOf("comment1", "comment2"))
+        val post = Post("post1", "Post 1", "Content 1", "author1", listOf("comment1", "comment2").toMutableList())
 
         repository.create(post)
 
@@ -28,7 +28,7 @@ class InMemoryPostRepositoryUnitTest() {
 
     @Test
     fun `Given a post, when deleted, then it should be removed from the repository`() {
-        val post = Post("post1", listOf("comment1", "comment2"))
+        val post = Post("post1", "Post 1", "Content 1", "author1", listOf("comment1", "comment2").toMutableList())
         repository.create(post)
 
         repository.delete("post1")

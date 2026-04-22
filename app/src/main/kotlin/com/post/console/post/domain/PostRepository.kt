@@ -6,4 +6,6 @@ interface PostRepository {
     fun create(post: Post)
     fun get(): List<Post>
     fun delete(id: String)
+    fun update(post: Post)
+    fun get(id: String): Post?
 }

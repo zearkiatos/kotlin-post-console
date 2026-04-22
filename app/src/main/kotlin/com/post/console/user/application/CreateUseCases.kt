@@ -1,6 +1,5 @@
 package com.post.console.user.application
 
-import java.util.UUID
 import com.post.console.user.application.dto.CreateUserRequest
 import com.post.console.user.application.mapper.toDomain
 import com.post.console.user.application.ports.input.CreateUserInputPort

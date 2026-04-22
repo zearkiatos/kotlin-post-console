@@ -7,16 +7,21 @@ import com.post.console.user.infrastructure.console.UserConsoleAdapter
 import com.post.console.user.application.ports.input.CreateUserInputPort
 import com.post.console.user.application.CreateUseCases
 import com.post.console.user.infrastructure.databases.InMemoryUserRepository
+import com.post.console.post.infrastructure.databases.InMemoryPostRepository
 import com.post.console.user.application.ports.input.GetUserInputPort
 import com.post.console.user.application.GetUseCases
 import com.post.console.user.application.UpdateUseCases
+import com.post.console.post.application.CreatePostUseCases
+import com.post.console.post.infrastructure.console.PostConsoleAdapter
 
 fun main() {
     
     val userRepository = InMemoryUserRepository()
+    val postRepository = InMemoryPostRepository()
     val createUseCases = CreateUseCases(userRepository)
     val getUseCases = GetUseCases(userRepository)
     val updateUseCases = UpdateUseCases(userRepository)
+    val createPostUseCases = CreatePostUseCases(postRepository)
 
     val userConsole = UserConsoleAdapter(
         createPort = createUseCases,
@@ -24,11 +29,14 @@ fun main() {
         updatePort = updateUseCases
     )
 
+    val postConsole = PostConsoleAdapter(createPost = createPostUseCases)
+
      while (true) {
             println(
                     """
             What module do you want to select:
             1) User
+            2) Post
             0) exit
             """.trimIndent()
             )
@@ -40,6 +48,7 @@ fun main() {
 
             when (line) {
                 "1" -> userConsole.run()
+                "2" -> postConsole.run()
                 else -> println("Unknown command")
             }
         }

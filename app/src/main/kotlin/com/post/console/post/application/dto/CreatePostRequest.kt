@@ -1,7 +1,6 @@
+package com.post.console.post.application.dto
 
-package com.post.console.post.domain.model
-
-data class Post(
+data class CreatePostRequest(
     val id: String,
     val title: String,
     val content: String,

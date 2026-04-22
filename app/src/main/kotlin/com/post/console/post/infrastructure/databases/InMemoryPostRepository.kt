@@ -15,7 +15,18 @@ class InMemoryPostRepository : PostRepository {
         return posts
     }
 
+    override fun get(id: String): Post? {
+        return posts.find { it.id == id }
+    }
+
     override fun delete(id: String) {
         posts.removeAll { it.id == id }
+    }
+
+    override fun update(post: Post) {
+        val index = posts.indexOfFirst { it.id == post.id }
+        if (index != -1) {
+            posts[index] = post
+        }
     }
 }
