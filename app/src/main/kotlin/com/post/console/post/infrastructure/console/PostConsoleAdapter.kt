@@ -1,11 +1,13 @@
 package com.post.console.post.infrastructure.console
 
+import java.util.UUID
 import com.post.console.post.application.ports.input.CreatePostInputPort
 import com.post.console.post.application.dto.CreatePostRequest
-import java.util.UUID
+import com.post.console.post.application.ports.input.GetPostInputPort
 
 class PostConsoleAdapter(
-    private val createPost: CreatePostInputPort
+    private val createPost: CreatePostInputPort,
+    private val getPort: GetPostInputPort
 ) {
     fun run() {
         while (true) {
@@ -13,6 +15,8 @@ class PostConsoleAdapter(
                     """
             What option do you want to select:
             1) create a post
+            2) list posts
+            3) get post by ID
             0) exit
             """.trimIndent()
             )
@@ -24,6 +28,8 @@ class PostConsoleAdapter(
 
             when (line) {
                 "1" -> handleCreate()
+                "2" -> handleGet()
+                "3" -> handleGetById()
                 else -> println("Unknown command")
             }
         }
@@ -53,6 +59,34 @@ class PostConsoleAdapter(
             println("Post created with ID: $id")
         } catch (e: IllegalArgumentException) {
             println("Validation error: ${e.message}")
+        }
+    }
+
+    private fun handleGet() {
+        val posts = getPort.get()
+        if (posts.isEmpty()) {
+            println("No posts found.")
+        } else {
+            posts.forEach { post ->
+                println("Id: ${post.id}, Title: ${post.title}, Content: ${post.content}, Author ID: ${post.authorId} ")
+            }
+        }
+    }
+
+    private fun handleGetById() {
+        println("Enter the post ID:")
+        val id = readlnOrNull()?.trimIndent()
+
+        if (id == null) {
+            println("ID is required")
+            return
+        }
+
+        val post = getPort.get(id)
+        if (post == null) {
+            println("Post not found.")
+        } else {
+            println("Id: ${post.id}, Title: ${post.title}, Content: ${post.content}, Author ID: ${post.authorId} ")
         }
     }
 }

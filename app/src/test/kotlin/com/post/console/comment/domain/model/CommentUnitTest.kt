@@ -7,7 +7,7 @@ class CommentUnitTest {
     @Test
     fun `Given a comment, when created, then the properties should be correct`() {
         val id = "comment1"
-        val userId = 123
+        val userId = "user1"
         val message = "This is a comment"
 
         val comment = Comment(id, userId, message)

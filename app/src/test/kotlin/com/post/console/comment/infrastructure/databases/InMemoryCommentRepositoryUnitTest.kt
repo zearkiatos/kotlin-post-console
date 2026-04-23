@@ -18,7 +18,7 @@ class InMemoryCommentRepositoryUnitTest() {
 
     @Test
     fun `Given a comment, when created, then it should be retrievable`() {
-        val comment = Comment("comment1", 123, "This is a comment")
+        val comment = Comment("comment1", "user1", "This is a comment")
         repository.create(comment)
 
         val comments = repository.get()
@@ -28,7 +28,7 @@ class InMemoryCommentRepositoryUnitTest() {
 
     @Test
     fun `Given a comment, when deleted, then it should not be retrievable`() {
-        val comment = Comment("comment1", 123, "This is a comment")
+        val comment = Comment("comment1", "user1", "This is a comment")
         repository.create(comment)
 
         repository.delete("comment1")

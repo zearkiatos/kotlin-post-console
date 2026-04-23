@@ -6,4 +6,5 @@ interface CommentRepository {
     fun create(comment: Comment)
     fun get(): List<Comment>
     fun delete(id: String)
+    fun get(id: String): Comment?
 }

@@ -18,4 +18,8 @@ class InMemoryCommentRepository : CommentRepository {
     override fun delete(id: String) {
         comments.removeAll { it.id == id }
     }
+
+    override fun get(id: String): Comment? {
+        return comments.find { it.id == id }
+    }
 }

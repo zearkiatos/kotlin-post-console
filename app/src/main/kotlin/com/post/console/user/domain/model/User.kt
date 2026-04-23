@@ -8,3 +8,7 @@ data class User(
     val relationshipUser: MutableMap<String, Relationship>,
     val blockedUsers: MutableSet<String>
 )
+
+fun User.getRelationshipWith(userId: String): Relationship {
+    return relationshipUser[userId] ?: Relationship.UNKNOWN
+}
