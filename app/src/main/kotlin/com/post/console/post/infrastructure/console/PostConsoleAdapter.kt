@@ -5,11 +5,13 @@ import com.post.console.post.application.ports.input.CreatePostInputPort
 import com.post.console.post.application.dto.CreatePostRequest
 import com.post.console.post.application.ports.input.GetPostInputPort
 import com.post.console.post.application.ports.input.GetPostWithCommentsInputPort
+import com.post.console.post.application.prots.input.UpdatePostInputPort
 
 class PostConsoleAdapter(
     private val createPost: CreatePostInputPort,
     private val getPort: GetPostInputPort,
-    private val getPostWithCommentsUseCases: GetPostWithCommentsInputPort
+    private val getPostWithCommentsPort: GetPostWithCommentsInputPort,
+    private val addPostCommentPort: UpdatePostInputPort
 ) {
     fun run() {
         while (true) {
@@ -20,6 +22,7 @@ class PostConsoleAdapter(
             2) list posts
             3) get post by ID
             4) get post with comments
+            5) Add comment to post
             0) exit
             """.trimIndent()
             )
@@ -34,6 +37,7 @@ class PostConsoleAdapter(
                 "2" -> handleGet()
                 "3" -> handleGetById()
                 "4" -> handleGetPostWithComments()
+                "5" -> handleAddCommentToPost()
                 else -> println("Unknown command")
             }
         }
@@ -103,7 +107,7 @@ class PostConsoleAdapter(
             return
         }
 
-        val postWithComments = getPostWithCommentsUseCases.getPostWithComments(id)
+        val postWithComments = getPostWithCommentsPort.getPostWithComments(id)
         if (postWithComments == null) {
             println("Post not found.")
         } else {
@@ -113,4 +117,25 @@ class PostConsoleAdapter(
             }
         }
     }
+
+    private fun handleAddCommentToPost() {
+        println("Enter the post ID:")
+        val postId = readlnOrNull()?.trimIndent()
+        println("Enter the comment ID:")
+        val commentId = readlnOrNull()?.trimIndent()
+
+        if (postId == null || commentId == null) {
+            println("Post ID and Comment ID are required")
+            return
+        }
+
+        try {
+            addPostCommentPort.addComment(postId, commentId)
+            println("Comment added to post successfully.")
+        } catch (e: IllegalArgumentException) {
+            println("Error: ${e.message}")
+        }
+    }
+
+    
 }

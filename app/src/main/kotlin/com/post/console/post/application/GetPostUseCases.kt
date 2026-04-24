@@ -4,6 +4,7 @@ import com.post.console.post.domain.PostRepository
 import com.post.console.post.application.dto.PostResponse
 import com.post.console.post.application.ports.input.GetPostInputPort
 import com.post.console.post.application.mapper.toResponse
+import com.post.console.comment.domain.CommentRepository
 
 class GetPostUseCases(
     private val postRepository: PostRepository

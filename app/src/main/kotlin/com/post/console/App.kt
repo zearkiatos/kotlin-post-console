@@ -6,6 +6,7 @@ package com.post.console
 import com.post.console.post.application.CreatePostUseCases
 import com.post.console.post.application.GetPostUseCases
 import com.post.console.post.application.GetPostWithCommentsUseCases
+import com.post.console.post.application.AddPostCommentUseCases
 import com.post.console.post.infrastructure.console.PostConsoleAdapter
 import com.post.console.post.infrastructure.databases.InMemoryPostRepository
 import com.post.console.user.application.CreateUseCases
@@ -30,6 +31,7 @@ fun main() {
     val getPostUseCases = GetPostUseCases(postRepository)
     val createCommentUseCases = CreateCommentUseCases(commentRepository)
     val getCommentUseCases = GetCommentUseCases(commentRepository)
+    val addPostCommentUseCases = AddPostCommentUseCases(postRepository, commentRepository)
     val getPostWithCommentsUseCases = GetPostWithCommentsUseCases(postRepository, userRepository, commentRepository)
 
     val userConsole =
@@ -42,7 +44,8 @@ fun main() {
     val postConsole = PostConsoleAdapter(
         createPost = createPostUseCases,
         getPort = getPostUseCases,
-        getPostWithCommentsUseCases = getPostWithCommentsUseCases
+        getPostWithCommentsPort = getPostWithCommentsUseCases,
+        addPostCommentPort = addPostCommentUseCases
     )
 
     val commentConsole = CommentConsoleAdapter(createCommentInputPort = createCommentUseCases, getCommentInputPort = getCommentUseCases)
