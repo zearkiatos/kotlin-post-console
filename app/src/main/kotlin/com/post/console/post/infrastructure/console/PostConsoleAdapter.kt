@@ -4,10 +4,12 @@ import java.util.UUID
 import com.post.console.post.application.ports.input.CreatePostInputPort
 import com.post.console.post.application.dto.CreatePostRequest
 import com.post.console.post.application.ports.input.GetPostInputPort
+import com.post.console.post.application.ports.input.GetPostWithCommentsInputPort
 
 class PostConsoleAdapter(
     private val createPost: CreatePostInputPort,
-    private val getPort: GetPostInputPort
+    private val getPort: GetPostInputPort,
+    private val getPostWithCommentsUseCases: GetPostWithCommentsInputPort
 ) {
     fun run() {
         while (true) {
@@ -17,6 +19,7 @@ class PostConsoleAdapter(
             1) create a post
             2) list posts
             3) get post by ID
+            4) get post with comments
             0) exit
             """.trimIndent()
             )
@@ -30,6 +33,7 @@ class PostConsoleAdapter(
                 "1" -> handleCreate()
                 "2" -> handleGet()
                 "3" -> handleGetById()
+                "4" -> handleGetPostWithComments()
                 else -> println("Unknown command")
             }
         }
@@ -87,6 +91,26 @@ class PostConsoleAdapter(
             println("Post not found.")
         } else {
             println("Id: ${post.id}, Title: ${post.title}, Content: ${post.content}, Author ID: ${post.authorId} ")
+        }
+    }
+
+    private fun handleGetPostWithComments() {
+        println("Enter the post ID:")
+        val id = readlnOrNull()?.trimIndent()
+
+        if (id == null) {
+            println("ID is required")
+            return
+        }
+
+        val postWithComments = getPostWithCommentsUseCases.getPostWithComments(id)
+        if (postWithComments == null) {
+            println("Post not found.")
+        } else {
+            println("Id: ${postWithComments.id}, Title: ${postWithComments.title}, Content: ${postWithComments.content}, Author ID: ${postWithComments.authorId} ")
+            postWithComments.comments.forEach { comment ->
+                println("  Comment: ${comment.message} (by ${comment.authorRelationship})")
+            }
         }
     }
 }
